@@ -6,8 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 
 trait LFSR {
 
-
-  val polynom: List[Bit]
+  val polynomial: List[Bit]
   val register: ArrayBuffer[Bit]
 
   def next(): Bit

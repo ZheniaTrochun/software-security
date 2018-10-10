@@ -1,20 +1,25 @@
 import lfsr.LFSR.Bit
 import lfsr.LinearLFSR
-import testing.{NonLinearTest, SpreadTesting}
+import testing.{DifferentialTest, NonLinearTest, RangTest, FrequencyTest}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-object Main {
-  val balanced64Polynom: List[Bit] = createBalancedPolynom()
-  val size = 20000
-
+object Main extends NonLinearTest with FrequencyTest with DifferentialTest with RangTest {
+  val balanced64Polynom: List[Bit] = createBalancedPolynomial()
+  val testSequnceSize = 20000
   val initialState = createInitialState()
   val lfsr = new LinearLFSR(balanced64Polynom, initialState)
 
   def main(args: Array[String]): Unit = {
-    println(NonLinearTest.calculateComplexity(lfsr, size))
-    println(SpreadTesting.test(lfsr, size))
+    println(s"Nonlinear complexity: ${lfsr.nonLinearComplexity(testSequnceSize)}")
+    println(s"Frequency test: ${lfsr.frequency(testSequnceSize)}")
+    println(s"Differential test: ${lfsr.differential(testSequnceSize)}")
+
+    println("Rang testing:")
+    lfsr.randComplexity(testSequnceSize)
+      .zipWithIndex
+      .foreach(tuple => println(s"${tuple._2} -> ${tuple._1}"))
   }
 
   def createInitialState(): ArrayBuffer[Bit] = {
@@ -22,7 +27,7 @@ object Main {
     (for (_ <- 1 to 64) yield r.nextInt(2).toByte).to[ArrayBuffer]
   }
 
-  def createBalancedPolynom(): List[Bit] = {
+  def createBalancedPolynomial(): List[Bit] = {
     1.toByte ::
       1.toByte ::
       (for (_ <- 1 to 58) yield 0.toByte).toList ++
