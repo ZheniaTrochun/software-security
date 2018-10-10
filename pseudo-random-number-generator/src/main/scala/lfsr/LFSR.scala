@@ -10,6 +10,8 @@ trait LFSR {
   val register: ArrayBuffer[Bit]
 
   def next(): Bit
+
+  def stream(): Stream[Bit]
 }
 
 object LFSR {

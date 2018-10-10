@@ -13,6 +13,10 @@ class LinearLFSR(override val polynomial: List[Bit], override val register: Arra
     nextValue
   }
 
+  override def stream(): Stream[Bit] = {
+    next() #:: stream()
+  }
+
   private def updateRegister(nextBit: Bit): Unit = {
     @tailrec
     def loop(curr: Int): Unit = {

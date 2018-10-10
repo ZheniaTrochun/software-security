@@ -20,6 +20,9 @@ object Main extends NonLinearTest with FrequencyTest with DifferentialTest with 
     lfsr.randComplexity(testSequnceSize)
       .zipWithIndex
       .foreach(tuple => println(s"${tuple._2} -> ${tuple._1}"))
+
+    print("Example of sequence: ")
+    println(lfsr.stream().take(10).toList.mkString)
   }
 
   def createInitialState(): ArrayBuffer[Bit] = {
