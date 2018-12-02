@@ -6,6 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 object Main extends NonLinearTest with FrequencyTest with DifferentialTest with RangTest {
+
   val balanced64Polynom: List[Bit] = createBalancedPolynomial()
   val testSequnceSize = 20000
   val initialState = createInitialState()
