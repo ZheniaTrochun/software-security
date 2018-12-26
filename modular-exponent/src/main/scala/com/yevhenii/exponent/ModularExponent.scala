@@ -1,21 +1,24 @@
 package com.yevhenii.exponent
 
+import java.math.BigInteger
+
 import com.yevhenii.reduction.Montgomery
 
 object ModularExponent {
 
-  def exponent(a: Int, e: Int, m: Int): Int = {
-    var result = 1
+  def exponent(a: BigInt, e: BigInt, m: BigInt): BigInt = {
+    var result: BigInt = 1
 
-    val binaryA = a.toBinaryString.reverse
-    val n = binaryA.length
-    val correlation = (2 << (n - 1)) % m
+    val n = m.bitLength
+    val correlation = (1 << n) % m
 
-    for (ei <- e.toBinaryString) {
-      result = Math.pow(result, 2).toInt % m
 
-      if (ei == '1') {
-        result = Montgomery.reduction(result, a, m)
+    for (i <- (0 until e.bitLength).reverse) {
+
+      result = Montgomery.reduction2(result, result, m)
+
+      if (e.testBit(i)) {
+        result = Montgomery.reduction2(a, result, m)
       }
     }
 
