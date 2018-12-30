@@ -36,16 +36,6 @@ object Montgomery {
   }
 
 
-//  def monPro(aBar: BigInt, bBar: BigInt, r: BigInt, nPrime: BigInt, mod: BigInt) = {
-//    val t = aBar * bBar
-//    val m = (t * nPrime) & (r - 1)
-//    val u = ((m * mod) + t) >> mod.bitLength
-//
-//    if (u >= mod)
-//      u - mod
-//    else
-//      u
-//  }
 
 
   def modExp(a: BigInt, e: BigInt, m: BigInt): BigInt = {
@@ -75,6 +65,7 @@ object Montgomery {
     var xBar = toMontgomeryForm(1)
 
 
+//    functional style
 //    toNormalForm {
 //      (0 until e.bitLength).reverse.foldLeft(xBar) { (x, bit) =>
 //        if (e.testBit(bit))
@@ -84,6 +75,8 @@ object Montgomery {
 //      }
 //    }
 
+
+//    imperative style
     for (i <- (0 until e.bitLength).reverse) {
       xBar = monPro(xBar, xBar)
       if (e.testBit(i)) {

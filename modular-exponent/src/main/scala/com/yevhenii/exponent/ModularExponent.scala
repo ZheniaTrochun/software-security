@@ -15,13 +15,13 @@ object ModularExponent {
 
     for (i <- (0 until e.bitLength).reverse) {
 
-      result = Montgomery.reduction2(result, result, m)
+      result = Montgomery.reduction(result, result, m)
 
       if (e.testBit(i)) {
-        result = Montgomery.reduction2(a, result, m)
+        result = Montgomery.reduction(a, result, m)
       }
     }
 
-    result
+    (result * correlation) % m
   }
 }
